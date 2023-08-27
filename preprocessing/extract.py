@@ -4,6 +4,7 @@ from datetime import datetime
 def extract_date(value: str) -> dict[str, int]:
     datetime_obj = datetime.strptime(value, "%Y-%m-%d %H:%M")
     return {
+        "Timestamp": int(datetime_obj.timestamp()),
         "Year": datetime_obj.year,
         "Month": datetime_obj.month,
         "Day": datetime_obj.day,

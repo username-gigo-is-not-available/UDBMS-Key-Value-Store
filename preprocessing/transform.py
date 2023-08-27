@@ -1,5 +1,6 @@
+import re
 from preprocessing.load import pollutants_dict, instruments_dict, pollutants, \
-    units_of_measurement, load_csv
+    units_of_measurement_dict, load_csv
 from preprocessing.settings import PATH_MEASUREMENT_ITEM_INFO_PATH, PATH_MEASUREMENT_INFO_PATH, \
     PATH_MEASUREMENT_STATION_INFO_PATH
 
@@ -22,16 +23,22 @@ def transform_measurement_dict(data: list[dict]) -> dict:
 
     result = {
         'Measurement date': data[0]['Measurement date'],
-        'Station code': data[0]['Station code']
+        'Station code': data[0]['Station code'],
     }
 
     station_code = result['Station code']
     for row in data:
         pollutant_column_name = pollutants_dict[row['Item code']]
-        result[pollutant_column_name] = row['Average value']
+        result[f'{pollutant_column_name}'] = row['Average value']
+        result[f'{pollutant_column_name} instrument status code'] = row['Instrument status']
         result[f'{pollutant_column_name} instrument status'] = instruments_dict[row['Instrument status']]
-        result[f'{pollutant_column_name} class'] = calculate_pollutant_class(
+        result[f'{pollutant_column_name} pollutant code'] = row['Item code']
+        result[f'{pollutant_column_name} class code'], result[
+            f'{pollutant_column_name} class'] = calculate_pollutant_class(
             pollutant_name=pollutant_column_name, pollutant_value=result[pollutant_column_name])
+        result[f'{pollutant_column_name} unit of measurement id'] = 1 if pollutant_column_name.startswith('PM') else 0
+        result[f'{pollutant_column_name} unit of measurement'] = units_of_measurement_dict[
+            result[f'{pollutant_column_name} unit of measurement id']]
 
         result = {**result, **stations_data[station_code]}
 
@@ -45,17 +52,18 @@ def can_transpose_pollutant_rows(data: list[dict]) -> bool:
     return False
 
 
-def calculate_pollutant_class(pollutant_name: str, pollutant_value: float) -> str:
+def calculate_pollutant_class(pollutant_name: str, pollutant_value: float) -> tuple[int, str]:
     if pollutant_name not in pollutants:
         raise Exception(f"Column {pollutant_name} is not a valid pollutant!")
 
-    boundary_dict = {k: v for k, v in pollutants_data[pollutant_name].items() if k not in units_of_measurement}
+    boundary_dict = {k: v for k, v in pollutants_data[pollutant_name].items() if
+                     k not in units_of_measurement_dict.values()}
 
-    for boundary, class_name in boundary_dict.items():
+    for index, (boundary, class_name) in enumerate(boundary_dict.items()):
         if pollutant_value <= boundary:
-            return class_name
+            return index, class_name
 
-    return list(boundary_dict.values())[-1]
+    return len(list(boundary_dict.values())) - 1, list(boundary_dict.values())[-1]
 
 
 pollutants_data: dict = transform_pollutant_dict(data=load_csv(path=PATH_MEASUREMENT_ITEM_INFO_PATH,

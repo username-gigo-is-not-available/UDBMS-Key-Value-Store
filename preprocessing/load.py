@@ -18,7 +18,8 @@ instruments_dict: dict[int, str] = {
     9: "Abnormal data"
 }
 
-units_of_measurement = ['ppm', 'Mircrogram/m3']
+units_of_measurement_dict = {0: 'ppm',
+                             1: 'Mircrogram/m3'}
 
 
 def load_csv(path: str, index_col: str | None = None, to_dict: bool = False,
@@ -31,7 +32,3 @@ def load_csv(path: str, index_col: str | None = None, to_dict: bool = False,
         return df.to_dict(orient='records')
     else:
         return df
-
-
-
-
