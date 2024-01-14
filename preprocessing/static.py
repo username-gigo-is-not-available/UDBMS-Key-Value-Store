@@ -24,6 +24,13 @@ UNIT_OF_MEASUREMENT_MAP = {
 COLUMN_ORDER = ['Timestamp', 'Year', 'Month', 'Day', 'Hour', 'Station code', 'Station name/District', 'House number',
                 'Street name', 'Latitude', 'Longitude', 'Instrument status', 'Instrument status code',
                 'Pollutant code', 'Pollutant name', 'Unit of measurement code', 'Unit of measurement', 'Average value',
-                'Pollutant class', 'Good(Blue)', 'Normal(Green)', 'Bad(Yellow)', 'Very bad(Red)']
+                'Pollutant class', 'Pollutant class code']
 
 POLLUTANT_CLASSES = ['Good(Blue)', 'Normal(Green)', 'Bad(Yellow)', 'Very bad(Red)']
+
+INVERSE_POLLUTANT_CLASSES_MAP = {
+    'Good(Blue)': 0,
+    'Normal(Green)': 1,
+    'Bad(Yellow)': 2,
+    'Very bad(Red)': 3
+}
