@@ -3,7 +3,7 @@ import pandas as pd
 from preprocessing.extract import extract_address, extract_date
 from preprocessing.load import load_csv
 from preprocessing.log import get_logger
-from preprocessing.settings import MEASUREMENT_STATION_INFO_PATH, MEASUREMENT_ITEM_INFO_PATH, MEASUREMENT_INFO_PATH
+from settings import MEASUREMENT_STATION_INFO_PATH, MEASUREMENT_ITEM_INFO_PATH, MEASUREMENT_INFO_PATH
 from preprocessing.static import POLLUTANT_MAP, UNIT_OF_MEASUREMENT_MAP, INSTRUMENT_STATUS_MAP
 
 
