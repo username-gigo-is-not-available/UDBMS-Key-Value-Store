@@ -22,7 +22,8 @@ UNIT_OF_MEASUREMENT_MAP = {
 }
 
 COLUMN_ORDER = ['Timestamp', 'Year', 'Month', 'Day', 'Hour', 'Station code', 'Station name/District', 'House number',
-                'Street name',
-                'Latitude', 'Longitude', 'Instrument status', 'Instrument status code',
-                'Pollutant code', 'Pollutant name', 'Unit of measurement code', 'Unit of measurement',
-                'Good(Blue)', 'Normal(Green)', 'Bad(Yellow)', 'Very bad(Red)']
+                'Street name', 'Latitude', 'Longitude', 'Instrument status', 'Instrument status code',
+                'Pollutant code', 'Pollutant name', 'Unit of measurement code', 'Unit of measurement', 'Average value',
+                'Pollutant class', 'Good(Blue)', 'Normal(Green)', 'Bad(Yellow)', 'Very bad(Red)']
+
+POLLUTANT_CLASSES = ['Good(Blue)', 'Normal(Green)', 'Bad(Yellow)', 'Very bad(Red)']
